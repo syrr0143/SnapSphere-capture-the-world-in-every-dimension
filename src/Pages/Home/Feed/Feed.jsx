@@ -7,12 +7,14 @@ import RecommendUser from '../RecommedUser/RecommendUser'
 const Feed = () => {
 
     return (
-        <div className='lg:w-[74%] md:w-[83%] sm:w-full min-h-screen lg:py-7 md:py-7 sm:py-4 py-3 px-3 flex items-start gap-x-20'>
-            <div className='lg:w-[60%] md:w-full sm:w-full h-auto relative'>
+        <div className='lg:w-[74%] md:w-[83%] sm:w-full min-h-screen lg:py-7 md:py-7 sm:py-4 py-3 px-3 flex items-start gap-x-16'>
+            <div className='lg:w-[68%] md:w-full sm:w-full h-auto relative'>
                 <TopNav />
                 <Stories />
                 <div className='w-full h-auto flex items-center justify-center mt-6'>
-                    <div className='lg:w-[73%] md:w-[73%] sm:w-[80%] w-[80%] h-auto'>
+                    <div className='lg:w-[85%] md:w-[73%] sm:w-[80%] w-[80%] h-auto'>
+                        <FeedCard />
+                        <FeedCard />
                         <FeedCard />
                     </div>
                 </div>

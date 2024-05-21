@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ProfileNav = () => {
     return (
-        <div className='w-full h-auto flex items-center justify-between mt-12'>
+        <div className='w-full h-auto flex items-center justify-between mt-24'>
             <Link to={'/profile'} className='w-full h-auto flex items-center gap-x-2'>
                 <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" alt="profile image" className='w-12 h-12 rounded-full ' />
                 <div className='flex items-start gap-y-0 flex-col '>

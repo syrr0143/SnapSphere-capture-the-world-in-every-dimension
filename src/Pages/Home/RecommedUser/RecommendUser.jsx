@@ -56,10 +56,14 @@ const RecommendUser = () => {
                                 <h6 className='text-xs text-gray-500 font-normal'>Suggested For you </h6>
                             </div>
                         </Link>
-                        <Link to={'/'} className='text-[0.855rem] text-blue-500 hover:text-gray-200'>Follow</Link>
+                        <Link to={'/'} className='text-[0.855rem] text-blue-500 hover:text-gray-200'>{users.follow}</Link>
                     </div>
                 ))}
             </div>
+            {/* this below section can have detals like about privacy help jobs career etc */}
+            {/* <div className='w-full h-auto '>
+                <div className='w-full h-auto flex items-center gap-x-[4px] flex-wrap mb-3'>hello</div>
+            </div> */}
         </div>
     )
 }
