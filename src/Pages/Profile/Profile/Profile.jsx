@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import Settings from '../../../Icons/Settings/Settings.jsx'
 import LinkIcon from '../../../Icons/LinkIcon/LinkIcon.jsx'
@@ -9,11 +9,15 @@ import reelicon from '../../../Icons/Reel/reel.png'
 import tagicon from '../../../Icons/Tag/tag.png'
 import Post from './Posts/Post.jsx'
 import Tags from './Tags/Tags.jsx'
+import toast, { Toaster } from 'react-hot-toast';
+import { UserContext } from '../../../Context/UserContext.jsx'
 const Profile = () => {
     const [activeTab, setActiveTab] = useState("posts");
     const [isContentVisible, setisContentVisible] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const { userDetails, userPosts } = useContext(UserContext);
+
     const handletabclick = (tab) => {
-        console.log(tab)
         setisContentVisible(false);
         setTimeout(() => {
             setActiveTab(tab);
@@ -65,13 +69,16 @@ const Profile = () => {
     ];
 
     return (
-        <div className='lg:w-[88%] md:w-[88%] sm:w-full w-full h-auto lg:block md:block sm:hidden hidden '>
+        <div className='lg:w-[88%] md:w-[88%] sm:w-full mt-10 mb-10 w-full h-auto lg:block md:block sm:hidden hidden '>
             {/* your info section */}
             <div className='w-full h-auto flex items-center lg:gap-x-20 md:gap-x-16 sm:gap-x-12 gap-x-8 justify-center mb-10'>
-                <img src="https://source.unsplash.com/random/?face" alt="" className='rounded-full lg:w-44 md:w-44 sm:w-36 w-32 lg:h-44 md:h-44 sm:h-36 h-36 object-cover' />
+                <img src={userDetails?.avatar} alt="profile-image" className='rounded-full lg:w-44 md:w-44 sm:w-36 w-32 lg:h-44 md:h-44 sm:h-36 h-36 object-cover' />
                 <div className='flex items-start flex-col'>
                     <div className='flex items-center gap-x-5 mb-4'>
-                        <Link to={"/profile"} className='text-lg text-gray-200 font-bold'>Sumit yadav</Link>
+                        <Link to={"/profile"} className='text-lg capitalize text-gray-200 font-bold'>
+                            {userDetails?.name}
+                        </Link>
+
                         <div className='flex items-center gap-x-2'>
                             <button className='bg-[#1d1d1d] rounded-lg px-4 py-1.5 text-base text-white font-normal hover:bg-[#2f2f2f] ease-out duration-150'>Edit Profile</button>
                             <button className='bg-[#1d1d1d] rounded-lg px-4 py-1.5 text-base text-white font-normal hover:bg-[#2f2f2f] ease-out duration-150'>View Archive</button>
@@ -79,21 +86,35 @@ const Profile = () => {
                         <Settings />
                     </div>
                     <div className='flex items-center gap-x-6 mb-4'>
-                        <h6 className='text-base text-gray-100 font-normal '>100 Posts</h6>
-                        <Link to={'/'} className='text-base text-gray-100 font-normal '>426 mn Followers</Link>
-                        <Link to={'/'} className='text-base text-gray-100 font-normal '>426 Following</Link>
+                        <h6 className='text-base text-gray-100 font-normal '>{userDetails?.posts?.length} Posts</h6>
+                        <Link to={'/'} className='text-base text-gray-100 font-normal '>{userDetails?.followers?.length} Followers</Link>
+
+                        <Link to={'/'} className='text-base text-gray-100 font-normal '>{userDetails?.following?.length} Following</Link>
+                        {/* Open the modal using document.getElementById('ID').showModal() method */}
+                        <button className="btn" onClick={() => document.getElementById('my_modal_1').showModal()}>open modal</button>
+                        <dialog id="my_modal_1" className="modal">
+                            <div className="modal-box">
+                                <h3 className="font-bold text-lg">Hello!</h3>
+                                <p className="py-4">Press ESC key or click the button below to close</p>
+                                <div className="modal-action">
+                                    <form method="dialog">
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button className="btn">Close</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
 
                     </div>
                     {/* fullname */}
-                    <p className='text-base text-gray-100 font-bold mb-4'>Sumit yadav</p>
+                    <p className='text-base text-gray-100 font-bold capitalize mb-4'> {userDetails?.name} <span className='bg-gray-600 rounded p-1 ml-4'>{userDetails?.username}</span></p>
                     {/* bio */}
                     <p className='text-base text-gray-100 font-normal mb-4'>
-                        jay shree ram <br />
-                        jay shree ram <br />
-                        jay shree ram <br />
-                        jay shree ram <br />
+                        Add bio.. <br />
 
                     </p>
+
+
                     <p className='text-base text-gray-100 font-normal  flex items-center gap-x-2 '>
                         <LinkIcon />
                         <Link to={'/'} className='hover:underline font-medium text-blue-500'>www.google.com</Link>
@@ -114,7 +135,8 @@ const Profile = () => {
                     ))}
                 </div>
             </div>
-            {/* posts */}
+
+
 
             <div className='w-full h-auto flex items-center gap-x-9 mb-10'>
                 <div className='w-full h-full flex items-center justify-center gap-x-6 mb-4 border-t border-[#313131]'>
@@ -123,7 +145,7 @@ const Profile = () => {
                         isActive={activeTab === 'posts'}
                         onClick={() => handletabclick('posts')}
                     />
-                    <Tabs label={"REELS"}
+                    <Tabs label={"SAVED"}
                         icon={reelicon}
                         isActive={activeTab === 'reels'}
                         onClick={() => handletabclick('reels')}
@@ -141,6 +163,7 @@ const Profile = () => {
                 {activeTab === 'reels' && <Reels />}
                 {activeTab === 'tagged' && <Tags />}
             </div>
+
         </div>
     )
 }

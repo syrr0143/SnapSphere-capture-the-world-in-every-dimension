@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../../../Context/UserContext';
 import { Link } from 'react-router-dom';
 import InstagramLogo from '../../../assets/logo/instagram.png';
 import InstagramIcon from '../../../assets/logo/icon.png';
@@ -11,7 +12,7 @@ import NotificationsLogo from '../../../assets/navlogo/like.png';
 import HomeLogo from '../../../assets/navlogo/home.png';
 
 const LargeNav = () => {
-    const ProfileIcon = 'https://source.unsplash.com/random?profile'
+    const { userDetails } = useContext(UserContext);
     const sidebarItems = [
         {
             name: "Home",
@@ -43,15 +44,15 @@ const LargeNav = () => {
             link: "/notifications",
             icon: NotificationsLogo,
         },
-        {
-            name: "Create",
-            link: "/create",
-            icon: CreateLogo,
-        },
+        // {
+        //     name: "Create",
+        //     link: "/create",
+        //     icon: CreateLogo,
+        // },
         {
             name: "Profile",
             link: "/profile",
-            icon: ProfileIcon,
+            icon: userDetails?.avatar,
         },
 
     ];

@@ -49,8 +49,7 @@ const ReelsCard = () => {
         const handleScroll = () => {
 
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {
-                // User scrolled to the bottom, play next reel
-                console.log('scrolled')
+
                 setPlayingReelIndex((prevIndex) => (prevIndex + 1) % reelsData.length);
             }
         };
@@ -73,7 +72,6 @@ const ReelsCard = () => {
     const handleMuteUnmute = () => {
         setIsMuted(!isMuted);
         videoRef.current.muted = !isMuted;
-        console.log("muted", isMuted);
     };
 
 

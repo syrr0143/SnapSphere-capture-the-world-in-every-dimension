@@ -7,6 +7,9 @@ import Feed from './Feed/Feed'
 import Main from '../Profile/Main.jsx'
 import MessagePage from '../../Pages/Chat/Messages/MessagesPage.jsx'
 import ReelsPage from '../Reels/ReelsPage.jsx'
+import Explore from '../Explore/Explore.jsx'
+import SearchPage from '../Search/Search.jsx'
+import Notifications from '../Notifications/Notification.jsx'
 
 const Home = () => {
     const location = useLocation();
@@ -35,6 +38,9 @@ const Home = () => {
                 <Route exact path="/profile" element={<Main />} />
                 <Route exact path="/messages" element={<MessagePage />} />
                 <Route exact path="/reels" element={<ReelsPage />} />
+                <Route exact path="/explore" element={<Explore />} />
+                <Route exact path="/search" element={<SearchPage />} />
+                <Route exact path="/notifications" element={<Notifications />} />
 
             </Routes>
         </div>

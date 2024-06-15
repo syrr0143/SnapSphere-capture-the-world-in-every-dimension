@@ -14,8 +14,7 @@ const Feed = () => {
                 <div className='w-full h-auto flex items-center justify-center mt-6'>
                     <div className='lg:w-[85%] md:w-[73%] sm:w-[80%] w-[80%] h-auto'>
                         <FeedCard />
-                        <FeedCard />
-                        <FeedCard />
+
                     </div>
                 </div>
             </div>
