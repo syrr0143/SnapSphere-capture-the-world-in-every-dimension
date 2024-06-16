@@ -4,16 +4,18 @@ import toast, { Toaster } from 'react-hot-toast';
 
 export const PostProvider = ({ children }) => {
     const [PostToShow, setPostToShow] = useState([]);
+    const [Postliked, setPostliked] = useState([]);
     const [AllPosts, setAllPosts] = useState([]);
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            toast.error("No token found, please login again ");
+            throw new Error('No token found');
+        }
         const postDetails = async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    toast.error("No token found, please login again ");
-                    throw new Error('No token found');
-                }
+
                 const response = await fetch('http://localhost:4000/api/v1/post/', {
                     method: 'GET',
                     headers: {
@@ -33,12 +35,14 @@ export const PostProvider = ({ children }) => {
                 console.error('Error:', error);
             }
         };
+
         postDetails();
     }, []);
+
     return (
         <PostContext.Provider value={{ PostToShow, AllPosts }}>
             {children}
         </PostContext.Provider>
     )
-}
+};
 

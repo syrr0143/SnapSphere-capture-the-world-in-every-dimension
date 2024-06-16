@@ -1,8 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
-import bg from '../../assets/images/bg.jpg'
 import bg1 from '../../assets/images/bg1.jpg'
+import toast, { Toaster } from 'react-hot-toast';
+
 const Signup = () => {
+    const [form, setForm] = useState({
+        fullname: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+        username: "",
+        avatar: null
+    });
+    const handlechange = (e) => {
+        if (e.target.type === 'file') {
+            setForm({ ...form, [e.target.name]: e.target.files[0] });
+        } else {
+            setForm({ ...form, [e.target.name]: e.target.value });
+        }
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const formData = new FormData();
+            formData.append('name', form.fullname);
+            formData.append('email', form.email);
+            formData.append('password', form.password);
+            formData.append('confirmpassword', form.confirm_password);
+            formData.append('username', form.username);
+            formData.append('avatar', form.avatar);
+
+            const response = await fetch('http://localhost:4000/api/v1/user', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                toast.success('Signup successful!, please login now');
+                setForm({
+                    fullname: "",
+                    email: "",
+                    password: "",
+                    confirm_password: "",
+                    username: "",
+                    avatar: null
+                })
+            }
+            else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+
+            toast.error(data.error);
+
+        }
+    };
     return (
         <div
             className="bg-no-repeat bg-cover bg-center relative"
@@ -10,6 +64,7 @@ const Signup = () => {
                 backgroundImage: `url(${bg1})`
             }}
         >
+            <Toaster />
             <div
                 className="absolute bg-black bg-opacity-20 inset-0 z-0"
                 style={{ backdropFilter: 'blur(6px)' }}
@@ -21,30 +76,43 @@ const Signup = () => {
                     <div className="p-12 bg-white mx-auto rounded-2xl w-100">
                         <div className="mb-4">
                             <h3 className="font-semibold text-2xl text-gray-800">Create Account</h3>
-                            <p className="text-gray-500">Please sign in to your account.</p>
+                            <p className="text-gray-500">Please sign up to create your account.</p>
                         </div>
-                        <div className="space-y-2">
-                            <div className="space-y-0">
-                                <label className="text-sm font-medium text-gray-700 tracking-wide">Email</label>
-                                <input
-                                    className="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400"
-                                    type="email"
-                                    placeholder="mail@gmail.com"
-                                />
-                            </div>
+                        <form className="space-y-2" onSubmit={handleSubmit}>
                             <div className="space-y-0">
                                 <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">Full Name</label>
                                 <input
                                     className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-800"
                                     type="text"
+                                    name='fullname'
+                                    value={form.fullname}
+                                    onChange={handlechange}
                                     placeholder="Enter Your Full Name"
                                 />
                             </div>
+                            <div className="space-y-0">
+                                <label className="text-sm font-medium text-gray-700 tracking-wide">Email</label>
+                                <input
+                                    className="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400"
+                                    type="email"
+                                    name='email'
+                                    value={form.email}
+                                    onChange={handlechange}
+                                    placeholder="mail@gmail.com"
+                                    required
+                                />
+                            </div>
+
                             <div className="space-y-0">
                                 <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">Username</label>
                                 <input
                                     className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-800"
                                     type="text"
+                                    name='username'
+                                    value={form.username}
+                                    onChange={handlechange}
+                                    autoComplete="username"
+
                                     placeholder="Enter Your Username"
                                 />
                             </div>
@@ -53,25 +121,47 @@ const Signup = () => {
                                 <input
                                     className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-800"
                                     type="password"
+                                    name='password'
+                                    value={form.password}
+                                    onChange={handlechange}
+                                    autoComplete="new-password"
                                     placeholder="Enter your password"
+                                />
+                            </div>
+                            <div className="space-y-0">
+                                <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">Confirm Password</label>
+                                <input
+                                    className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-800"
+                                    type="password"
+                                    name='confirm_password'
+                                    value={form.confirm_password}
+                                    onChange={handlechange}
+                                    autoComplete="new-password"
+                                    placeholder="Enter your password"
+                                />
+                            </div>
+                            <div className="space-y-0">
+                                <label className="mb-5 text-sm font-medium text-gray-700 tracking-wide">Upload Profile Image</label>
+                                <input
+                                    className="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-800"
+                                    type="file"
+                                    accept='image/*'
+                                    name='avatar'
+                                    onChange={handlechange}
+                                    placeholder="Please chose a file"
                                 />
                             </div>
 
                             <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <input
-                                        id="remember_me"
-                                        name="remember_me"
-                                        type="checkbox"
-                                        className="h-4 w-4 bg-gray-500 focus:ring-gray-800 border-gray-300 rounded"
-                                    />
-                                    <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-800">
-                                        Remember me
-                                    </label>
-                                </div>
+
                                 <div className="text-sm">
                                     <a href="#" className="text-gray-500 hover:text-gray-800">
                                         Forgot your password?
+                                    </a>
+                                </div>
+                                <div className="text-sm">
+                                    <a href="/login" className="text-gray-500 hover:text-gray-800">
+                                        Have an account?
                                     </a>
                                 </div>
                             </div>
@@ -83,12 +173,8 @@ const Signup = () => {
                                     Sign up
                                 </button>
                             </div>
-                            <div className="text-sm">
-                                <a href="/login" className="text-gray-500 hover:text-gray-800">
-                                    Have an account?
-                                </a>
-                            </div>
-                        </div>
+
+                        </form>
 
                     </div>
                 </div>

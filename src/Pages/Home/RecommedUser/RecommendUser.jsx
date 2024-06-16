@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ProfileNav from './profilenav/ProfileNav';
 import { Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import { UserContext } from '../../../Context/UserContext.jsx'
 
 const RecommendUser = () => {
     const [recommendUserData, setrecommendUserData] = useState([]);
-
+    const { userDetails } = useContext(UserContext);
     useEffect(() => {
         const reccomendation = async () => {
             try {
@@ -25,7 +26,7 @@ const RecommendUser = () => {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    const filteredUsers = data?.users.filter(user => !userDetails?.following.includes(user?._id));
+                    const filteredUsers = data?.users.filter(user => !userDetails?.following?.includes(user?._id));
                     setrecommendUserData(filteredUsers);
                 } else {
                     const errorData = await response.json();
@@ -98,6 +99,7 @@ const RecommendUser = () => {
                 ) : (
                     <h1 className='text-white'>No users available</h1>
                 )}
+
 
             </div>
 

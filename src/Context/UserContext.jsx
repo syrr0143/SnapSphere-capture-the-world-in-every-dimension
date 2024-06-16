@@ -26,6 +26,7 @@ export const UserProvider = ({ children }) => {
                 });
                 if (response.ok) {
                     const data = await response.json();
+
                     setUserDetails(data.user);
 
                     const userPosts = await Promise.all(data.user.posts.map(async (postId) => {

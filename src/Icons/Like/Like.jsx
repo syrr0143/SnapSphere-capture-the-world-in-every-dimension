@@ -1,6 +1,6 @@
 import React from "react";
 
-const Like = () => {
+const Like = ({ fill, color }) => {
   return (
     <>
       <button className="text-sm text-gray-200">
@@ -9,7 +9,8 @@ const Like = () => {
           width="28"
           height="28"
           viewBox="0 0 24 24"
-          fill="none"
+          fill={fill}
+          color={color}
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"

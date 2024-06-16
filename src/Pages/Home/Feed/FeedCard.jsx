@@ -8,6 +8,8 @@ import Share from '../../../Icons/Share/Share.jsx'
 import Save from '../../../Icons/Save/Save.jsx'
 import Emoji from '../../../Icons/Emoji/Emoji.jsx'
 import { PostContext, PostProvider } from '../../../Context/posts/PostToShow.jsx'
+import { UserContext } from '../../../Context/UserContext.jsx'
+import toast, { Toaster } from 'react-hot-toast';
 
 const timeSince = (date) => {
     const now = new Date();
@@ -30,10 +32,37 @@ const timeSince = (date) => {
 };
 
 const FeedCard = () => {
-    const { AllPosts } = useContext(PostContext);
+
+    const { AllPosts, setAllPosts } = useContext(PostContext);
+    const { userDetails } = useContext(UserContext);
+    console.log(userDetails)
+    const handlelike = async (postid) => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                toast.error('No token found!');
+                return;
+            }
+            const response = await fetch(`http://localhost:4000/api/v1/post/like/${postid}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+
+            });
+            if (response.ok) {
+                const data = await response.json();
+                toast.success(data?.message);
+            }
+            console.log(response)
+        } catch (error) {
+
+        }
+    }
 
     return (
-        <>
+        <><Toaster />
             {AllPosts?.map((posts) => (
                 <div key={posts?._id} className='w-full h-auto mb-6'>
                     <div className='w-full h-auto flex items-center justify-between mb-2'>
@@ -57,9 +86,10 @@ const FeedCard = () => {
                     </div>
                     <div className='w-full h-auto flex items-center justify-between'>
                         <div className='flex items-center gap-x-3 '>
-                            <Like />
-                            <Comment />
-                            <Share />
+                            <div onClick={() => handlelike(posts?._id)}> <Like fill={posts?.likes.includes(userDetails?._id) ? "rgba(255, 48, 64, 1)" : ""} color={posts?.likes.includes(userDetails?._id) ? "rgba(255, 48, 64, 1)" : ""} /></div>
+
+                            <div> <Comment /></div>
+                            <div> <Share /></div>
                         </div>
                         <Save />
                     </div>

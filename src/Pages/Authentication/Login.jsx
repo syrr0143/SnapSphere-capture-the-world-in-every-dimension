@@ -61,11 +61,11 @@ const Login = () => {
                         </div>
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-700 tracking-wide">Email/UserId</label>
+                                <label className="text-sm font-medium text-gray-700 tracking-wide">Email</label>
                                 <input
                                     className="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400"
                                     type="text"
-                                    placeholder="mail@gmail.com/userid"
+                                    placeholder="mail@gmail.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
