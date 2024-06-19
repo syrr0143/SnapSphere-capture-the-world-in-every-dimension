@@ -8,6 +8,7 @@ import Main from './Pages/Profile/Main.jsx';
 import MessagePage from './Pages/Chat/Messages/MessagesPage.jsx';
 import ReelsPage from './Pages/Reels/ReelsPage.jsx';
 import Explore from './Pages/Explore/Explore.jsx';
+import UploadPost from './Pages/Create/UploadPost.jsx';
 import SearchPage from './Pages/Search/Search.jsx';
 import Notifications from './Pages/Notifications/Notification.jsx';
 import { UserContext, UserProvider } from './Context/UserContext.jsx'
@@ -27,6 +28,7 @@ function App() {
             <Route path='explore' element={<Explore />} />
             <Route path='notifications' element={<Notifications />} />
             <Route path='search' element={<SearchPage />} />
+            <Route path='create' element={<UploadPost />} />
           </Route>
         </Routes>
       </PostProvider>

@@ -24,6 +24,7 @@ const timeSince = (date) => {
 
 const SearchPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchType, setsearchType] = useState('Post');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -37,8 +38,8 @@ const SearchPage = () => {
                 return;
 
             }
-
-            const response = await fetch(`http://localhost:4000/api/v1/post/search?q=${searchTerm}`, {
+            const endpoint = searchType === 'User' ? 'user/search' : 'post/search';
+            const response = await fetch(`http://localhost:4000/api/v1/${endpoint}?q=${searchTerm}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,12 +49,12 @@ const SearchPage = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                setResults(data?.posts);
-                if (data?.posts.length > 0) {
+                setResults(data?.posts || data?.users || []);
+                if (data?.posts.length > 0 || data?.users.length > 0) {
                     toast.success('fetched successfully');
                 }
                 else {
-                    toast.error('No post matching query');
+                    toast.error('No matching result found');
 
                 }
             } else {
@@ -81,43 +82,80 @@ const SearchPage = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full max-w-md rounded text-gray-500 font-bold"
+                    placeholder='Enter text here to search'
                 />
-                <Button className="ml-0 pr-6 pl-6 uppercase bg-gray-500 text-white" onClick={handleSearch}>
+                <select value={searchType} onChange={(e) => setsearchType(e.target.value)} className="rounded border border-solid border-gray-500 bg-black text-white ml-0">
+                    <option disabled >What do you want to search?</option>
+                    <option value="User">User</option>
+                    <option value="Post">Post</option>
+                </select>
+                <Button className="ml-48 pr-6 pl-6 uppercase bg-gray-500 text-white" onClick={handleSearch}>
                     Search
                 </Button>
+
 
             </div>
             <div className="grid grid-cols-3 gap-4">
                 {loading ? (
                     <>
-                        <div>
-                            <div className="skeleton h-32 w-full"></div>
-                            <div className="skeleton h-4 w-28"></div>
-                            <div className="skeleton h-4 w-full"></div>
-                            <div className="skeleton h-4 w-full"></div>
-                        </div>
+                        <div>Loading...</div>
                     </>
                 ) : (
                     results.map((result) => (
-                        <Card key={result._id} className="m-2 rounded-lg shadow-lg max-w-full">
-                            {/* Assuming the image is available */}
-                            <img src={result?.imageurl} alt={result?.title} className="w-full h-80 object-cover object-center rounded-t-lg" />
-                            <div className="p-4">
-                                <div className='flex items-center gap-x-2'>
-                                    <p className=' text-sm font-medium capitalize'>{result?.title}</p>
-                                    <div className='w-1 h-1 bg-gray-500 rounded-full'></div>
-                                    <p className=' text-sm font-medium'>{result?.createdAt ? timeSince(result.createdAt) : 'N/A'}</p>
-                                </div>
-                                <Typography variant="paragraph" color="gray" className="mt-2">
-                                    {result?.description}
-                                </Typography>
+                        <Card key={result._id} className="m-2 bg-black border border-solid border-gray-500 rounded-lg shadow-lg max-w-full">
+                            {searchType === 'Post' ? (
+                                <>
+                                    <img src={result?.imageurl} alt={result?.title} className="w-full h-80 object-cover object-center rounded-t-lg" />
+                                    <div className="p-4">
+                                        <div className='flex items-center gap-x-2'>
+                                            <p className='text-sm text-white font-medium capitalize'>{result?.title}</p>
+                                            <div className='w-1 h-1 bg-gray-500 rounded-full'></div>
+                                            <p className='text-sm text-white font-medium'>{result?.createdAt ? timeSince(result.createdAt) : 'N/A'}</p>
+                                        </div>
+                                        <Typography variant="paragraph" color="white" className="mt-2">
+                                            {result?.description}
+                                        </Typography>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="p-4 cursor-pointer">
+                                        <div className='flex items-center justify-evenly gap-x-2'>
+                                            <div className="avatar">
+                                                <div className="w-24 rounded-full">
+                                                    <img src={result?.avatar} />
+                                                </div>
+                                            </div>
+                                            <div className='flex-col'>
+                                                <div>
+                                                    <p className='text-sm text-white font-medium capitalize'>{result?.name}</p>
 
-                            </div>
+                                                </div>
+                                                <div>
+                                                    <p className='text-sm text-gray-500 font-medium capitalize'>{result?.username}</p>
+                                                </div>
+                                                <div>
+                                                    <p className='text-sm text-white font-medium capitalize'>{result?.followers.length} Follower</p>
+
+                                                </div>
+                                                <div>
+                                                    <p className='text-sm text-white font-medium capitalize'>{result?.following.length} Following</p>
+
+                                                </div>
+                                                <div>
+                                                    <div className='flex items-center gap-2'>
+                                                        <div className='w-1 h-1 bg-gray-500 rounded-full'></div>
+                                                        <p className='text-sm text-white font-medium'>{result?.createdAt ? timeSince(result.createdAt) : 'N/A'}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </Card>
                     ))
                 )}
-
-
             </div>
         </div>
     );

@@ -44,11 +44,11 @@ const LargeNav = () => {
             link: "/notifications",
             icon: NotificationsLogo,
         },
-        // {
-        //     name: "Create",
-        //     link: "/create",
-        //     icon: CreateLogo,
-        // },
+        {
+            name: "Create",
+            link: "/create",
+            icon: CreateLogo,
+        },
         {
             name: "Profile",
             link: "/profile",

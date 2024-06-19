@@ -6,6 +6,7 @@ import { UserContext } from '../../../Context/UserContext.jsx'
 
 const RecommendUser = () => {
     const [recommendUserData, setrecommendUserData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const { userDetails } = useContext(UserContext);
     useEffect(() => {
         const reccomendation = async () => {
@@ -39,7 +40,7 @@ const RecommendUser = () => {
             }
         }
         reccomendation();
-    }, []);
+    }, [userDetails]);
 
     const followUser = async (userId) => {
         try {

@@ -10,6 +10,7 @@ import ReelsPage from '../Reels/ReelsPage.jsx'
 import Explore from '../Explore/Explore.jsx'
 import SearchPage from '../Search/Search.jsx'
 import Notifications from '../Notifications/Notification.jsx'
+import UploadPost from '../Create/UploadPost.jsx'
 
 const Home = () => {
     const location = useLocation();
@@ -41,6 +42,7 @@ const Home = () => {
                 <Route exact path="/explore" element={<Explore />} />
                 <Route exact path="/search" element={<SearchPage />} />
                 <Route exact path="/notifications" element={<Notifications />} />
+                <Route exact path="/create" element={<UploadPost />} />
 
             </Routes>
         </div>
