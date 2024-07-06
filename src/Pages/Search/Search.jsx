@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input, Button, Card, Typography } from '@material-tailwind/react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const timeSince = (date) => {
     const now = new Date();
@@ -50,7 +50,7 @@ const SearchPage = () => {
             if (response.ok) {
                 const data = await response.json();
                 setResults(data?.posts || data?.users || []);
-                if (data?.posts.length > 0 || data?.users.length > 0) {
+                if (data?.posts?.length > 0 || data?.users?.length > 0) {
                     toast.success('fetched successfully');
                 }
                 else {
@@ -75,7 +75,6 @@ const SearchPage = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <Toaster />
             <div className="flex justify-center mt-10 mb-6">
                 <Input
                     type="text"

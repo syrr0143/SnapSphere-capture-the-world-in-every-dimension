@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Settings from '../../../Icons/Settings/Settings.jsx'
 import LinkIcon from '../../../Icons/LinkIcon/LinkIcon.jsx'
 import Reels from './Reels/Reels.jsx'
@@ -9,9 +9,10 @@ import reelicon from '../../../Icons/Reel/reel.png'
 import tagicon from '../../../Icons/Tag/tag.png'
 import Post from './Posts/Post.jsx'
 import Tags from './Tags/Tags.jsx'
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { UserContext } from '../../../Context/UserContext.jsx'
 const Profile = () => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("posts");
     const [isContentVisible, setisContentVisible] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
@@ -23,6 +24,23 @@ const Profile = () => {
             setActiveTab(tab);
             setisContentVisible(true);
         }, 300);
+    }
+    const handlelogout = async () => {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:4000/api/v1/user/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+        if (response.ok) {
+            navigate('/login')
+            toast.success('Logged out successfully');
+        }
+        else {
+            toast.error('Error logging out')
+        }
     }
 
     const followUser = async (userId) => {
@@ -58,7 +76,6 @@ const Profile = () => {
     return (
         <div className='lg:w-[88%] md:w-[88%] sm:w-full mt-10 mb-10 w-full h-auto lg:block md:block sm:hidden hidden '>
             {/* your info section */}
-            <Toaster />
             <div className='w-full h-auto flex items-center lg:gap-x-20 md:gap-x-16 sm:gap-x-12 gap-x-8 justify-center mb-10'>
                 <img src={userDetails?.avatar} alt="profile-image" className='rounded-full lg:w-44 md:w-44 sm:w-36 w-32 lg:h-44 md:h-44 sm:h-36 h-36 object-cover' />
                 <div className='flex items-start flex-col'>
@@ -70,6 +87,7 @@ const Profile = () => {
                         <div className='flex items-center gap-x-2'>
                             <button className='bg-[#1d1d1d] rounded-lg px-4 py-1.5 text-base text-white font-normal hover:bg-[#2f2f2f] ease-out duration-150'>Edit Profile</button>
                             <button className='bg-[#1d1d1d] rounded-lg px-4 py-1.5 text-base text-white font-normal hover:bg-[#2f2f2f] ease-out duration-150'>View Archive</button>
+                            <button onClick={handlelogout} className='bg-[#1d1d1d] rounded-lg px-4 py-1.5 text-base text-white font-normal hover:bg-[#2f2f2f] ease-out duration-150'>Logout</button>
                         </div>
                         <Settings />
                     </div>

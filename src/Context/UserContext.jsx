@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'
+import postHook from '../CustomHook/PostHook';
 
 // Create a context
 export const UserContext = createContext();
@@ -12,13 +13,15 @@ export const UserProvider = ({ children }) => {
     const [userPosts, setUserPosts] = useState([]);
     const [userFollowing, setUserFollowing] = useState([]);
     const [Followers, setFollowers] = useState([]);
+    const [fetchsavedpost, setfetchsavedpost] = useState([]);
+
 
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    navigate('/login'); // Navigate to the login page
+                    // Navigate to the login page
                     return;
                 }
                 const response = await fetch('http://localhost:4000/api/v1/user/', {
@@ -73,13 +76,48 @@ export const UserProvider = ({ children }) => {
                     console.error('Error fetching post:', error);
                 }
             }
-
-            setUserPosts(fetchedPosts);
         };
 
         fetchUserPosts();
     }, [userDetails]);
 
+    useEffect(() => {
+        const fetchSavedPosts = async () => {
+            if (!userDetails || !userDetails.savedPost) return;
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found');
+                return;
+            }
+
+            const fetchedSavedPosts = [];
+            for (const postId of userDetails?.savedPost) {
+                try {
+                    const response = await fetch(`http://localhost:4000/api/v1/post/actions/${postId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        fetchedSavedPosts.push(data);
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Error fetching saved post:', errorData.message);
+                    }
+                } catch (error) {
+                    console.error('Error fetching saved post:', error);
+                }
+            }
+
+            setfetchsavedpost(fetchedSavedPosts);
+        };
+
+        fetchSavedPosts();
+    }, [userDetails]);
 
     useEffect(() => {
         const fetchUserFollowing = async () => {
@@ -151,7 +189,7 @@ export const UserProvider = ({ children }) => {
         fetchFollowers();
     }, [userDetails]);
     return (
-        <UserContext.Provider value={{ userDetails, userPosts, userFollowing, Followers }}>
+        <UserContext.Provider value={{ userDetails, userPosts, userFollowing, Followers, fetchsavedpost }}>
             {children}
         </UserContext.Provider>
     );

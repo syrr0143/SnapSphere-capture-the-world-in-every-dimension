@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext, createContext, useMemo, } from 'react';
 import { useNavigate } from 'react-router-dom'
 export const PostContext = createContext();
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { UserContext } from '../UserContext';
-
+import postHook from '../../CustomHook/PostHook.js';
 export const PostProvider = ({ children }) => {
+    const { postdeleted, posttodelete } = postHook();
     const navigate = useNavigate();
     const [PostToShow, setPostToShow] = useState([]);
     const [AllPosts, setAllPosts] = useState([]);
@@ -42,7 +43,7 @@ export const PostProvider = ({ children }) => {
         };
 
         postDetails();
-    }, []);
+    }, [postdeleted]);
 
 
     const handleLike = async (postid) => {

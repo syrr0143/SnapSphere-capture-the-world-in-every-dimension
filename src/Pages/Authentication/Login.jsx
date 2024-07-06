@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import bg1 from '../../assets/images/bg1.jpg'
 import { useNavigate } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -46,7 +46,7 @@ const Login = () => {
         <div
             className="bg-no-repeat bg-cover bg-center relative"
             style={{ backgroundImage: `url(${bg1})` }}
-        ><Toaster />
+        >
             <div
                 className="absolute bg-black bg-opacity-20 inset-0 z-0"
                 style={{ backdropFilter: 'blur(6px)' }}

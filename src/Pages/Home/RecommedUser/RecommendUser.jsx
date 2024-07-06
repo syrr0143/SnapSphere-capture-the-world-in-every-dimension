@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ProfileNav from './profilenav/ProfileNav';
 import { Link } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { UserContext } from '../../../Context/UserContext.jsx'
 
 const RecommendUser = () => {
@@ -74,7 +74,6 @@ const RecommendUser = () => {
 
     return (
         <div className='w-full h-auto py-3'>
-            <Toaster />
             <ProfileNav />
             <div className='w-full h-auto my-8'>
                 <div className='w-full h-auto flex items-center justify-between'>

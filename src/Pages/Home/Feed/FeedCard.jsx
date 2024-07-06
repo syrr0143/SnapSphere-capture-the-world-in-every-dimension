@@ -9,8 +9,8 @@ import Save from '../../../Icons/Save/Save.jsx';
 import Emoji from '../../../Icons/Emoji/Emoji.jsx';
 import { PostContext } from '../../../Context/posts/PostToShow.jsx';
 import { UserContext } from '../../../Context/UserContext.jsx';
-import toast, { Toaster } from 'react-hot-toast';
-
+import toast from 'react-hot-toast';
+import postHook from '../../../CustomHook/PostHook.js'
 const timeSince = (date) => {
     const now = new Date();
     const seconds = Math.floor((now - new Date(date)) / 1000);
@@ -30,6 +30,8 @@ const timeSince = (date) => {
     }
     return Math.floor(seconds) + " s";
 };
+
+
 
 const fetchUserDetails = async (userId) => {
     try {
@@ -60,14 +62,30 @@ const fetchUserDetails = async (userId) => {
 
 const FeedCard = () => {
     const { AllPosts, handleLike } = useContext(PostContext);
-    const { userDetails } = useContext(UserContext);
+    const { userDetails, fetchsavedpost } = useContext(UserContext);
+    console.log('fetched post is ', fetchsavedpost)
     const [comments, setComments] = useState({});
     const [fetchedUserDetails, setFetchedUserDetails] = useState({});
     const memoizedUserDetails = useMemo(() => userDetails, [userDetails]);
+
+    const { postdeleted, posttodelete, allcomment, getAllComment } = postHook();
     const handleCommentChange = (postId, value) => {
         setComments(prev => ({ ...prev, [postId]: value }));
     };
 
+    const handleEllipsis = (postid) => {
+        console.log('clicked ellipesis')
+        posttodelete(postid);
+        console.log(postdeleted)
+    }
+    const handlesavepost = (postid) => {
+        savepost(postid);
+    }
+    const getallcomentsofpost = (postid) => {
+        console.log('clicked comment')
+        getAllComment(postid);
+        console.log('this is all the comment of the post', allcomment)
+    }
     useEffect(() => {
         const fetchAndStoreUserDetails = async () => {
             const userIds = AllPosts.map(post => post.user);
@@ -128,9 +146,10 @@ const FeedCard = () => {
         }
     };
 
+
     return (
         <>
-            <Toaster />
+
             {AllPosts?.map((posts) => (
                 <div key={posts?._id} className='w-full h-auto mb-6'>
                     <div className='w-full h-auto flex items-center justify-between mb-2'>
@@ -166,8 +185,11 @@ const FeedCard = () => {
                             </div>
                             <div><Comment /></div>
                             <div><Share /></div>
+                            {/* <div onClick={() => handleEllipsis(posts?._id)}>delete</div> */}
                         </div>
-                        <Save />
+
+                        <div onClick={() => handlesavepost(posts?._id)}><Save fill={userDetails?.savedPost?.includes(posts?._id) ? "rgba(255, 255, 255, 1)" : ""} color={userDetails?.savedPost?.includes(posts?._id) ? "rgba(255, 255, 255, 1)" : ""} />
+                        </div>
                     </div>
                     <Link to={'/'} className='w-full h-auto flex items-center gap-x-2 text-base text-gray-200 font-medium my-2'>
                         <div className='flex items-center'>
@@ -188,9 +210,34 @@ const FeedCard = () => {
                             </Link>
                         </div>
                     </div>
-                    <Link to={'/'} className='text-gray-400 font-normal my-2'>
+
+
+                    <button className='text-base text-gray-100 font-normal ' onClick={() => document.getElementById('my_modal_5').showModal()}> <Link to={'/'} onClick={() => getallcomentsofpost(posts?._id)} className='text-gray-400 font-normal my-2'>
                         View all {posts?.comments.length} Comments
-                    </Link>
+                    </Link></button>
+                    <dialog id="my_modal_5" className="modal ">
+                        <div className="modal-box w-96">
+                            <h1 className="font-bold text-lg mb-10">All comments</h1>
+                            {allcomment?.allComments?.map((comment) => (
+
+                                <div key={comment?._id} className='cursor-pointer flex items-center gap-x-10 mb-6'>
+
+                                    <div className='flex flex-col'>
+                                        <p className='text-base font-bold  capitalize'>{comment?.user}</p>
+                                        <p className='text-base  text-gray-500  capitalize'>{comment?.comment}</p>
+                                    </div>
+
+                                </div>
+                            ))}
+                            <div className="modal-action">
+                                <form method="dialog">
+                                    {/* if there is a button in form, it will close the modal */}
+                                    <button className="btn">Close</button>
+                                </form>
+                            </div>
+                        </div>
+                    </dialog>
+
                     <div className='w-full h-auto flex items-center justify-between border-b border-b-gray-500'>
                         <input
                             type="text"

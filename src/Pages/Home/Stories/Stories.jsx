@@ -84,14 +84,14 @@ const Stories = () => {
                     </div>
                     <TextEllipse username={userDetails?.name} />
                 </Link>
-                {storiesData.map((story) => (
+                {/* {storiesData.map((story) => (
                     <button to={'/'} key={story.id} className='flex items-center justify-center flex-col flex-shrink-0' onClick={() => openStory(story.id)}>
                         <div className='w-16 h-16 rounded-full object-cover p-[2px] bg-gradient-to-r from-[#ffd89b] to-[#19547b]'>
                             <img src={story.imageUrl} alt="" className='rounded-full w-full h-full object-cover bg-black p-[2.5px]' />
                         </div>
                         <TextEllipse username={story.username} />
                     </button>
-                ))}
+                ))} */}
             </div>
             {selectedStory && (
                 <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center z-50">

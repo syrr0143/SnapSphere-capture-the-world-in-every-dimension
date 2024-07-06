@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 const CreatePostPage = () => {
     const [title, setTitle] = useState('');
@@ -54,7 +54,7 @@ const CreatePostPage = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <Toaster />
+
             <div className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
                 <h1 className="text-2xl font-bold mb-4">Create Post</h1>
                 <form onSubmit={handleSubmit}>

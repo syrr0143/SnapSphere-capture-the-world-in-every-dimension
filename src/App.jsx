@@ -13,11 +13,12 @@ import SearchPage from './Pages/Search/Search.jsx';
 import Notifications from './Pages/Notifications/Notification.jsx';
 import { UserContext, UserProvider } from './Context/UserContext.jsx'
 import { PostProvider } from './Context/posts/PostToShow.jsx';
+import { Toaster } from 'react-hot-toast';
 function App() {
   return (
-
     <UserProvider>
       <PostProvider>
+        <Toaster />
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
