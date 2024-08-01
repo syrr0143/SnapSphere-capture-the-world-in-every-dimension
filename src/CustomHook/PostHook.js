@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react"
 import toast from "react-hot-toast";
-
+import { useNavigate } from "react-router-dom";
 const postHook = () => {
     const [postdeleted, setpostdeleted] = useState({});
+    const navigate = useNavigate();
     const [allcomment, setallcomment] = useState({});
     const token = localStorage.getItem('token');
-    if (!token) {
-        throw new Error('unauthorised access')
-    }
+    useEffect(() => {
+        // Check if the token exists in localStorage
+        if (!token) {
+            navigate('/signup'); // Redirect to /signup if token is not present
+        }
+    }, [token, navigate]);
 
     const posttodelete = async (postid) => {
 
