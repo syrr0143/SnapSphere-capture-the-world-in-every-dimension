@@ -31,7 +31,7 @@ const Signup = () => {
             formData.append('username', form.username);
             formData.append('avatar', form.avatar);
 
-            const response = await fetch('http://localhost:4000/api/v1/user', {
+            const response = await fetch('https://snapsphere-api.onrender.com/api/v1/user', {
                 method: 'POST',
                 body: formData
             });

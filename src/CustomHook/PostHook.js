@@ -15,7 +15,7 @@ const postHook = () => {
 
     const posttodelete = async (postid) => {
 
-        const response = await fetch(`http://localhost:4000/api/v1/post/actions/${postid}`, {
+        const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/actions/${postid}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const postHook = () => {
     }
 
     const getAllComment = async (postid) => {
-        const response = await fetch(`http://localhost:4000/api/v1/post/comment/${postid}`, {
+        const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/comment/${postid}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ const postHook = () => {
     }
 
     const savepost = async (postid) => {
-        const response = await fetch(`http://localhost:4000/api/v1/post/savePost/${postid}`, {
+        const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/savePost/${postid}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

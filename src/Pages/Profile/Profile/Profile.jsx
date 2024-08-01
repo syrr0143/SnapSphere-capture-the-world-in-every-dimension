@@ -27,7 +27,7 @@ const Profile = () => {
     }
     const handlelogout = async () => {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:4000/api/v1/user/logout', {
+        const response = await fetch('https://snapsphere-api.onrender.com/api/v1/user/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const Profile = () => {
                 throw new Error('No token found');
             }
 
-            const response = await fetch(`http://localhost:4000/api/v1/user/follow/${userId}`, {
+            const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/user/follow/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

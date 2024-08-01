@@ -22,7 +22,7 @@ export const PostProvider = ({ children }) => {
         const postDetails = async () => {
             try {
 
-                const response = await fetch('http://localhost:4000/api/v1/post/', {
+                const response = await fetch('https://snapsphere-api.onrender.com/api/v1/post/', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const PostProvider = ({ children }) => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:4000/api/v1/post/like/${postid}`, {
+            const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/like/${postid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

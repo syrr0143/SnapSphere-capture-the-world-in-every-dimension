@@ -39,7 +39,7 @@ const SearchPage = () => {
 
             }
             const endpoint = searchType === 'User' ? 'user/search' : 'post/search';
-            const response = await fetch(`http://localhost:4000/api/v1/${endpoint}?q=${searchTerm}`, {
+            const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/${endpoint}?q=${searchTerm}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',

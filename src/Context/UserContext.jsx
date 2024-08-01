@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
                     // Navigate to the login page
                     return;
                 }
-                const response = await fetch('http://localhost:4000/api/v1/user/', {
+                const response = await fetch('https://snapsphere-api.onrender.com/api/v1/user/', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ export const UserProvider = ({ children }) => {
             const fetchedPosts = [];
             for (const postId of userDetails?.posts) {
                 try {
-                    const response = await fetch(`http://localhost:4000/api/v1/post/actions/${postId}`, {
+                    const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/actions/${postId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ export const UserProvider = ({ children }) => {
             const fetchedSavedPosts = [];
             for (const postId of userDetails?.savedPost) {
                 try {
-                    const response = await fetch(`http://localhost:4000/api/v1/post/actions/${postId}`, {
+                    const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/actions/${postId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export const UserProvider = ({ children }) => {
             const fetchedUserFollowing = [];
             for (const userFollowingId of userDetails.following) {
                 try {
-                    const response = await fetch(`http://localhost:4000/api/v1/user/search/${userFollowingId}`, {
+                    const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/user/search/${userFollowingId}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ export const UserProvider = ({ children }) => {
             const fetchedfollowers = [];
             for (const followersid of userDetails.followers) {
                 try {
-                    const response = await fetch(`http://localhost:4000/api/v1/user/search/${followersid}`, {
+                    const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/user/search/${followersid}`, {
                         method: 'GET',
                         headers: {
                             'Content-Type': 'application/json',

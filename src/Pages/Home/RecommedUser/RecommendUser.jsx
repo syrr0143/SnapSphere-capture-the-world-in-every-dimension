@@ -17,7 +17,7 @@ const RecommendUser = () => {
                     setLoading(false);
                     return;
                 }
-                const response = await fetch('http://localhost:4000/api/v1/user/allUsers', {
+                const response = await fetch('https://snapsphere-api.onrender.com/api/v1/user/allUsers', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const RecommendUser = () => {
                 throw new Error('No token found');
             }
 
-            const response = await fetch(`http://localhost:4000/api/v1/user/follow/${userId}`, {
+            const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/user/follow/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -36,7 +36,7 @@ const timeSince = (date) => {
 const fetchUserDetails = async (userId) => {
     try {
         console.log('finding post user details')
-        const response = await fetch(`http://localhost:4000/api/v1/user/search/${userId}`, {
+        const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/user/search/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ const FeedCard = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:4000/api/v1/post/comment/${postid}`, {
+            const response = await fetch(`https://snapsphere-api.onrender.com/api/v1/post/comment/${postid}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
